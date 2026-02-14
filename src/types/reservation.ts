@@ -29,7 +29,7 @@ export interface ReservationFormData {
 
 // Kontrak khusus untuk Detail/List (Form + Status)
 export interface ReservationDetailData extends ReservationFormData {
-    status: string;
+    status: ReservationStatus;
 }
 
 export interface RoomSummary {
