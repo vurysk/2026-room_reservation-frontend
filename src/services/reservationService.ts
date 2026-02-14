@@ -90,5 +90,41 @@ export const reservationService = {
                 status: 'Pending' 
             }
         ];
+    },
+
+    getPendingReservations: async (): Promise<ReservationDetailData[]> => {
+        await delay(800);
+        return [
+            { 
+                roomCode: 'C-104', 
+                fullName: 'Andi Wijaya', 
+                nrp: '5025211002', 
+                date: '2026-02-22', 
+                time: '08:00 - 11:00', 
+                purpose: 'Praktikum Pemrograman', 
+                status: 'Pending' 
+            },
+            { 
+                roomCode: 'D-101', 
+                fullName: 'Rina Rose', 
+                nrp: '5025211005', 
+                date: '2026-02-23', 
+                time: '10:00 - 12:00', 
+                purpose: 'Rapat Internal', 
+                status: 'Pending' 
+            },
+        ];
+    },
+
+    /**
+     * Memperbarui status reservasi (Accept/Decline).
+     * @param roomCode Kode ruangan yang statusnya akan diubah.
+     * @param newStatus Status baru ('Approved' atau 'Rejected').
+     */
+    updateReservationStatus: async (roomCode: string, newStatus: 'Approved' | 'Rejected'): Promise<{ success: boolean }> => {
+        console.log(`API Call (Admin): Merubah status ${roomCode} menjadi ${newStatus}`);
+        await delay(1000); // Simulasi koneksi ke database ASP.NET
+        return { success: true };
     }
+    
 };

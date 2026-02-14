@@ -1,0 +1,143 @@
+/* src/pages/admin/RoomApproval.css */
+.approval-page { 
+    padding: 3rem; 
+    position: relative; /* Penting agar posisi wrapper navigasi pas */
+}
+
+.header-text { 
+    color: white; 
+    font-size: 2.5rem; 
+    line-height: 1; 
+    margin-bottom: 2.5rem; 
+    font-weight: bold; 
+}
+
+/* Navigasi Wrapper (Kanan Atas) */
+.navigation-wrapper {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+}
+
+.history-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px; /* Jarak antara ikon dan tulisan */
+}
+
+.history-circle-btn {
+    background: #8D7B64;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #2C0E18;
+    font-size: 1.5rem;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.history-circle-btn:hover { transform: scale(1.1); }
+
+/* Tulisan kecil di bawah ikon history */
+.history-label {
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    max-width: 80px;
+    letter-spacing: 0.5px;
+}
+
+.approval-card {
+    background-color: #B69D82; 
+    padding: 2.5rem;
+    border-radius: 12px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* TABEL: Border-collapse collapse digabungkan dengan border 2px untuk hilangkan garis dobel */
+.approval-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: 2px solid #000;
+}
+
+.approval-table th, .approval-table td { 
+    border: 2px solid #000; 
+    padding: 15px; 
+    text-align: center;
+    vertical-align: middle;
+}
+
+.approval-table th { 
+    background-color: #4A4444; 
+    color: #D2C1B0; 
+    font-weight: bold; 
+}
+
+.approval-table td { 
+    background-color: #D2C1B0; 
+    color: #000; 
+    font-weight: 600; 
+}
+
+/* Lebar kolom khusus untuk kerapihan */
+.detail-col { width: 80px; }
+.btns-col { width: 250px; }
+
+.detail-link {
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #1a1a1a;
+}
+
+.btn-group { 
+    display: flex; 
+    gap: 15px; 
+    justify-content: center; 
+}
+
+/* Tombol Aksi sesuai warna di image_2e030b.png */
+.btn-decline { 
+    background-color: #835353; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+
+.btn-accept { 
+    background-color: #4B5E4F; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+
+.btn-decline:hover, .btn-accept:hover { filter: brightness(1.2); }
+
+.back-btn { 
+    color: white; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-size: 1.2rem; 
+    display: inline-block; 
+    margin-top: 1.5rem; 
+}
+
+.loading-text { color: white; text-align: center; padding: 50px; }

@@ -1,5 +1,7 @@
+// src/pages/user/Home.tsx
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaEye, FaEdit, FaTrash } from 'react-icons/fa';
+// REVISI: Menambahkan FaUserShield untuk ikon Admin
+import { FaPlus, FaEye, FaEdit, FaTrash, FaUserShield } from 'react-icons/fa'; 
 import { BiListUl } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { reservationService } from '../../services/reservationService';
@@ -15,7 +17,6 @@ const Home: React.FC = () => {
         reservationService.getRoomSummaries().then(setRooms);
     }, []);
 
-    // LOGIKA VALIDASI TOMBOL
     const canAdd = selectedRoom && selectedRoom.status === 'available';
     const canEditOrDetail = selectedRoom && selectedRoom.status !== 'available';
 
@@ -23,44 +24,54 @@ const Home: React.FC = () => {
         <div className="home-container">
             <h1 className="page-title">ROOM RESERVE</h1>
 
-            <div className="controller-toolbar">
-                <button 
-                    disabled={!canAdd} 
-                    onClick={() => navigate(`/reservation/add/${selectedRoom?.code}`)}
-                    title="Add New"
-                >
-                    <FaPlus />
-                </button>
-                
-                {/* BARU/PERBAIKAN: Menambahkan onClick untuk navigasi ke halaman Detail */}
-                <button 
-                    disabled={!canEditOrDetail} 
-                    onClick={() => navigate(`/reservation/detail/${selectedRoom?.code}`)}
-                    title="Detail"
-                >
-                    <FaEye />
-                </button>
-        
+            {/* BARU: Container pembungkus navigasi untuk memisahkan Toolbar dan Lingkaran Admin */}
+            <div className="navigation-wrapper">
+                <div className="controller-toolbar">
+                    <button 
+                        disabled={!canAdd} 
+                        onClick={() => navigate(`/reservation/add/${selectedRoom?.code}`)}
+                        title="Add New"
+                    >
+                        <FaPlus />
+                    </button>
+                    
+                    <button 
+                        disabled={!canEditOrDetail} 
+                        onClick={() => navigate(`/reservation/detail/${selectedRoom?.code}`)}
+                        title="Detail"
+                    >
+                        <FaEye />
+                    </button>
+            
+                    <button 
+                        disabled={!canEditOrDetail} 
+                        onClick={() => navigate(`/reservation/edit/${selectedRoom?.code}`)}
+                        title="Edit Reservation"
+                    >
+                        <FaEdit />
+                    </button>
 
-                <button 
-                    disabled={!canEditOrDetail} 
-                    onClick={() => navigate(`/reservation/edit/${selectedRoom?.code}`)}
-                    title="Edit Reservation"
-                >
-                    <FaEdit />
-                </button>
+                    <button 
+                        disabled={!canEditOrDetail} 
+                        onClick={() => alert(`Hapus reservasi ruang ${selectedRoom?.code}?`)}
+                        title="Delete"
+                    >
+                        <FaTrash />
+                    </button>
 
-                {/* BARU: Menambahkan placeholder alert untuk tombol Delete */}
-                <button 
-                    disabled={!canEditOrDetail} 
-                    onClick={() => alert(`Hapus reservasi ruang ${selectedRoom?.code}?`)}
-                    title="Delete"
-                >
-                    <FaTrash />
-                </button>
+                    <button onClick={() => navigate('/reservation/list')} title="List">
+                        <BiListUl />
+                    </button>
+                </div>
 
-                
-                <button onClick={() => navigate('/reservation/list')} title="List"><BiListUl /></button>
+                {/* BARU: Tombol Admin berbentuk lingkaran di sebelah kanan toolbar */}
+                <button 
+                    className="admin-circle-btn" 
+                    onClick={() => navigate('/admin/approval')}
+                    title="Admin Approval"
+                >
+                    <FaUserShield />
+                </button>
             </div>
 
             <div className="room-grid">
