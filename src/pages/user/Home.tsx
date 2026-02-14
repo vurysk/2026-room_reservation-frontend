@@ -11,14 +11,29 @@ const Home: React.FC = () => {
     const [rooms, setRooms] = useState<RoomSummary[]>([]);
     const [selectedRoom, setSelectedRoom] = useState<RoomSummary | null>(null);
 
+    // Fetch data saat komponen dimuat
     useEffect(() => {
         reservationService.getRoomSummaries().then(setRooms);
     }, []);
 
-    // Fungsi Navigasi ke Form dengan membawa Parameter Kode Ruang
+    // --- LOGIKA VALIDASI TOMBOL ---
+    
+    // 1. Add (+) hanya bisa jika ada ruang dipilih DAN statusnya 'available'
+    const canAdd = selectedRoom && selectedRoom.status === 'available';
+
+    // 2. Edit, Detail, & Delete hanya bisa jika ada ruang dipilih DAN statusnya BUKAN 'available'
+    const canEditOrDetail = selectedRoom && selectedRoom.status !== 'available';
+
+    // --- HANDLERS ---
     const handleAddClick = () => {
-        if (selectedRoom) {
+        if (canAdd) {
             navigate(`/reservation/add/${selectedRoom.code}`);
+        }
+    };
+
+    const handleEditClick = () => {
+        if (canEditOrDetail) {
+            navigate(`/reservation/edit/${selectedRoom.code}`);
         }
     };
 
@@ -27,16 +42,51 @@ const Home: React.FC = () => {
             <h1 className="page-title">ROOM RESERVE</h1>
 
             <div className="controller-toolbar">
-                {/* VALIDASI: Tombol hanya menyala jika selectedRoom tidak null */}
-                <button onClick={handleAddClick} disabled={!selectedRoom} title="Add Reservation">
+                {/* Tombol ADD: Aktif jika ruang kosong */}
+                <button 
+                    onClick={handleAddClick} 
+                    disabled={!canAdd} 
+                    title="Add Reservation"
+                >
                     <FaPlus />
                 </button>
-                <button disabled={!selectedRoom} title="Read Detail"><FaEye /></button>
-                <button disabled={!selectedRoom} title="Update Reservation"><FaEdit /></button>
-                <button disabled={!selectedRoom} title="Delete"><FaTrash /></button>
                 
-                {/* Tombol List tetap menyala */}
-                <button onClick={() => navigate('/reservation/list')} title="List Reservations">
+                {/* Tombol DETAIL: Aktif jika sudah di-reservasi */}
+                <button 
+                    disabled={!canEditOrDetail} 
+                    title="Read Detail"
+                    onClick={() => navigate(`/reservation/detail/${selectedRoom?.code}`)}
+                >
+                    <FaEye />
+                </button>
+
+                {/* Tombol EDIT: Aktif jika sudah di-reservasi */}
+                <button 
+                    onClick={handleEditClick}
+                    disabled={!canEditOrDetail} 
+                    title="Update Reservation"
+                >
+                    <FaEdit />
+                </button>
+
+                {/* Tombol DELETE: Aktif jika sudah di-reservasi */}
+                <button 
+                    disabled={!canEditOrDetail} 
+                    title="Delete"
+                    onClick={() => {
+                        if(window.confirm(`Hapus reservasi ruang ${selectedRoom?.code}?`)) {
+                            console.log("Menghapus reservasi...");
+                        }
+                    }}
+                >
+                    <FaTrash />
+                </button>
+                
+                {/* Tombol LIST: Selalu aktif */}
+                <button 
+                    onClick={() => navigate('/reservation/list')} 
+                    title="List Reservations"
+                >
                     <BiListUl />
                 </button>
             </div>
