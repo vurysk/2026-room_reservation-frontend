@@ -32,7 +32,15 @@ const Home: React.FC = () => {
                     <FaPlus />
                 </button>
                 
-                <button disabled={!canEditOrDetail} title="Detail"><FaEye /></button>
+                {/* BARU/PERBAIKAN: Menambahkan onClick untuk navigasi ke halaman Detail */}
+                <button 
+                    disabled={!canEditOrDetail} 
+                    onClick={() => navigate(`/reservation/detail/${selectedRoom?.code}`)}
+                    title="Detail"
+                >
+                    <FaEye />
+                </button>
+        
 
                 <button 
                     disabled={!canEditOrDetail} 
@@ -42,7 +50,15 @@ const Home: React.FC = () => {
                     <FaEdit />
                 </button>
 
-                <button disabled={!canEditOrDetail} title="Delete"><FaTrash /></button>
+                {/* BARU: Menambahkan placeholder alert untuk tombol Delete */}
+                <button 
+                    disabled={!canEditOrDetail} 
+                    onClick={() => alert(`Hapus reservasi ruang ${selectedRoom?.code}?`)}
+                    title="Delete"
+                >
+                    <FaTrash />
+                </button>
+
                 
                 <button onClick={() => navigate('/reservation/list')} title="List"><BiListUl /></button>
             </div>
