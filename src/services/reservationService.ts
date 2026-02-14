@@ -14,6 +14,11 @@ export interface ReservationFormData {
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 const API_BASE_URL = 'https://localhost:7000/api'; 
 
+// Interface baru untuk Detail (dengan tambahan Status)
+export interface ReservationDetailData extends ReservationFormData {
+    status: string;
+}
+
 export const reservationService = {
     getRoomSummaries: async (): Promise<RoomSummary[]> => {
         await delay(800); 
@@ -46,6 +51,21 @@ export const reservationService = {
             roomCode: roomCode
         };
     },
+
+    // BARU: Fungsi untuk mengambil detail lengkap termasuk status
+    getReservationDetail: async (roomCode: string): Promise<ReservationDetailData> => {
+        await delay(700);
+        return {
+            roomCode: roomCode,
+            fullName: "Budi Tabuti", 
+            nrp: "5025211000",
+            purpose: "Rapat Koordinasi Projek",
+            date: "2026-02-20",
+            time: "10:00 - 12:00",
+            status: "Approved" // Simulasi status dari DB
+        };
+    },
+    
 
     // PERBAIKAN: Ganti any dengan ReservationFormData
     updateReservation: async (data: ReservationFormData): Promise<{ success: boolean }> => {
