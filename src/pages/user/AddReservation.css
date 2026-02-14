@@ -1,0 +1,86 @@
+.add-reservation-page {
+    padding: 2.5rem;
+}
+
+.form-header {
+    color: white;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 2rem;
+}
+
+.form-card {
+    background-color: #B69D82; /* Warna cokelat sesuai gambar */
+    padding: 3rem;
+    border-radius: 12px;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.input-field {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field label {
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.input-field input {
+    background-color: #E2D5C8; /* Warna beige input */
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+
+.back-link {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.1rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-clear {
+    background-color: #835353; /* Tombol Clear merah tua */
+    color: #E2D5C8;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background-color: #4B5E4F; /* Tombol Submit hijau tua */
+    color: #E2D5C8;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Responsif */
+@media (max-width: 600px) {
+    .form-card { padding: 1.5rem; }
+    .form-footer { flex-direction: column; gap: 1.5rem; }
+}

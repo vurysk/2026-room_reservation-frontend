@@ -1,6 +1,9 @@
-/* Warna latar belakang utama aplikasi diambil dari gambar */
+/* src/App.css */
 .App {
-  background-color: #2C0E18; 
-  min-height: 100vh; /* Minimal setinggi layar */
-  color: white; /* Warna teks default putih */
+  background-color: #2C0E18; /* Warna latar gelap sesuai gambar */
+  min-height: 100vh;
+  width: 100%;
+  color: white;
+  margin: 0;
+  padding: 0;
 }

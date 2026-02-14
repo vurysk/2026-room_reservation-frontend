@@ -1,6 +1,6 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/user/Home';
+import AddReservation from './pages/user/AddReservation';
 import './App.css';
 
 function App() {
@@ -9,9 +9,11 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* Placeholder untuk halaman lain yang akan kita buat */}
-          <Route path="/reservation/add" element={<div style={{color:'white'}}>Halaman Form</div>} />
-          <Route path="/reservation/list" element={<div style={{color:'white'}}>Halaman List</div>} />
+          {/* Alur: /reservation/add/A-101 */}
+          <Route path="/reservation/add/:roomCode" element={<AddReservation />} />
+          
+          {/* Placeholder untuk halaman lainnya nanti */}
+          <Route path="/reservation/list" element={<div style={{padding: '50px', color: 'white'}}>Halaman List (Next Step)</div>} />
         </Routes>
       </div>
     </Router>
