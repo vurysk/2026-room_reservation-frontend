@@ -1,0 +1,116 @@
+/* src/pages/admin/ReservationHistory.css */
+.history-page { padding: 3rem; }
+.header-text { color: white; font-size: 2.5rem; line-height: 1; margin-bottom: 2rem; font-weight: bold; }
+
+.history-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-bottom: 20px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-box, .filter-wrapper {
+    background: #D2C1B0;
+    padding: 8px 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid #000;
+}
+
+/* BARU: Mengubah warna ikon search dan filter menjadi cokelat tua agar tidak putih */
+.control-icon {
+    color: #4A4444; 
+    font-size: 1.1rem;
+}
+
+.search-box input, .filter-wrapper select {
+    background: none;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    color: #4A4444;
+}
+
+/* Agar dropdown select juga menggunakan kursor pointer */
+.filter-wrapper select {
+    cursor: pointer;
+    appearance: none; /* Menghilangkan panah default browser */
+    padding-right: 5px;
+}
+
+.history-card {
+    background-color: #B69D82; 
+    padding: 2rem;
+    border-radius: 12px;
+    max-width: 1000px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.history-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: 2px solid #000; 
+}
+
+.history-table th, .history-table td { 
+    border: 2px solid #000; 
+    padding: 12px; 
+    text-align: center; 
+}
+
+.history-table th { 
+    background-color: #4A4444; 
+    color: #D2C1B0; 
+}
+
+/* REVISI: Mengubah warna teks td menjadi hitam pekat (#000) agar konsisten dengan RoomApproval */
+.history-table td { 
+    background-color: #D2C1B0; 
+    color: #000; 
+    font-weight: 600; 
+}
+
+/* Badges Styling */
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white; /* Tulisan di dalam badge tetap putih agar kontras dengan warna background badge */
+    font-size: 0.85rem;
+    display: inline-block;
+    min-width: 80px;
+    font-weight: bold;
+}
+
+.status-approved { background-color: #4B5E4F; }
+.status-rejected { background-color: #835353; }
+
+.session-upcoming { background-color: #4A5568; }
+.session-on-going { background-color: #B29551; }
+.session-completed { background-color: #718096; }
+
+/* REVISI: Memperbaiki warna untuk status sesi yang kosong (-) */
+.badge.session-- { 
+    background-color: transparent; 
+    color: #835353; 
+    font-weight: bold; 
+    font-size: 1.5rem; 
+}
+
+.back-btn { 
+    color: white; 
+    cursor: pointer; 
+    font-weight: bold; 
+    margin-top: 20px; 
+    display: inline-block; 
+    font-size: 1.2rem;
+}
+
+.back-btn:hover {
+    text-decoration: underline;
+}

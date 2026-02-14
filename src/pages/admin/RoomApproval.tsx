@@ -45,7 +45,7 @@ const RoomApproval: React.FC = () => {
                 <div className="history-nav-item">
                     <button 
                         className="history-circle-btn" 
-                        onClick={() => alert("Menuju Halaman History...")}
+                        onClick={() => navigate('/admin/history')}
                         title="Reservation History"
                     >
                         <FaHistory />
