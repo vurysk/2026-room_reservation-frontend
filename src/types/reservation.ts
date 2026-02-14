@@ -1,7 +1,7 @@
 // src/types/reservation.ts
 
 export type ReservationStatus = 'Pending' | 'Approved' | 'Rejected';
-export type SessionStatus = 'Upcoming' | 'On Progress' | 'Finished';
+export type SessionStatus = 'Upcoming' | 'On-Going' | 'Completed' | '-';
 export type RoomGridStatus = 'available' | 'pending' | 'approved';
 
 // Kontrak Utama untuk Database/Backend
@@ -31,6 +31,17 @@ export interface ReservationFormData {
 export interface ReservationDetailData extends ReservationFormData {
     status: ReservationStatus;
 }
+
+
+export interface ReservationHistoryData {
+    fullName: string;      // Kolom 'Applicant' di gambar
+    roomCode: string;
+    date: string;
+    time: string;
+    status: ReservationStatus;
+    sessionStatus: SessionStatus;
+}
+
 
 export interface RoomSummary {
     id: string;

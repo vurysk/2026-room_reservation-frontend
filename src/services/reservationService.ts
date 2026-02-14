@@ -2,7 +2,8 @@
 import type { 
     RoomSummary, 
     ReservationFormData, 
-    ReservationDetailData 
+    ReservationDetailData, 
+    ReservationHistoryData
 } from '../types/reservation';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -125,6 +126,16 @@ export const reservationService = {
         console.log(`API Call (Admin): Merubah status ${roomCode} menjadi ${newStatus}`);
         await delay(1000); // Simulasi koneksi ke database ASP.NET
         return { success: true };
+    }, 
+
+    getReservationHistory: async (): Promise<ReservationHistoryData[]> => {
+        await delay(800); // Simulasi loading data
+        return [
+            { fullName: 'Budi Tabuti', roomCode: 'A-104', date: '2026-02-14', time: '10:00 - 12:00', status: 'Approved', sessionStatus: 'Upcoming' },
+            { fullName: 'Siti Aminah', roomCode: 'B-103', date: '2026-02-13', time: '13:00 - 15:00', status: 'Rejected', sessionStatus: '-' },
+            { fullName: 'Andi Wijaya', roomCode: 'C-104', date: '2026-02-14', time: '08:00 - 11:00', status: 'Approved', sessionStatus: 'On-Going' },
+            { fullName: 'Rina Rose', roomCode: 'D-101', date: '2026-02-10', time: '09:00 - 11:00', status: 'Approved', sessionStatus: 'Completed' },
+        ]; // Mengembalikan data simulasi sesuai dengan kolom di gambar
     }
     
 };
