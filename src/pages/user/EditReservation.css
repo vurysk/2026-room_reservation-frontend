@@ -1,0 +1,72 @@
+.edit-page {
+    padding: 3rem;
+}
+
+.header-text {
+    color: white;
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 2.5rem;
+    font-weight: bold;
+}
+
+.form-card {
+    background-color: #B69D82; /* Cokelat kartu */
+    padding: 3rem;
+    border-radius: 12px;
+    max-width: 850px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+}
+
+.input-group input {
+    background-color: #E2D5C8; /* Beige input */
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.footer-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+}
+
+.back-btn {
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.save-btn {
+    background-color: #4B5E4F; /* Hijau Submit */
+    color: #E2D5C8;
+    border: none;
+    padding: 12px 35px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.save-btn:hover { opacity: 0.9; }
+
+@media (max-width: 600px) {
+    .form-card { padding: 1.5rem; }
+    .footer-actions { flex-direction: column; gap: 1.5rem; }
+}
