@@ -1,23 +1,12 @@
 // src/services/reservationService.ts
-import type { Reservation, RoomSummary } from '../types/reservation';
-
-// Kita buat interface khusus untuk data yang ada di Form
-export interface ReservationFormData {
-    fullName: string;
-    nrp: string;
-    purpose: string;
-    date: string;
-    time: string;
-    roomCode?: string; // Opsional
-}
+import type { 
+    RoomSummary, 
+    ReservationFormData, 
+    ReservationDetailData 
+} from '../types/reservation';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-const API_BASE_URL = 'https://localhost:7000/api'; 
-
-// Interface baru untuk Detail (dengan tambahan Status)
-export interface ReservationDetailData extends ReservationFormData {
-    status: string;
-}
+//const API_BASE_URL = 'https://localhost:7000/api'; 
 
 export const reservationService = {
     getRoomSummaries: async (): Promise<RoomSummary[]> => {
@@ -33,15 +22,13 @@ export const reservationService = {
     },
 
     createReservation: async (data: ReservationFormData): Promise<{ success: boolean; message?: string }> => {
-        console.log("Payload Data Baru:", data);
+        console.log("Payload Data Baru ke ASP.NET:", data); // 'data' digunakan di sini
         await delay(1000);
         return { success: true };
     },
 
-    // PERBAIKAN: Ganti any dengan ReservationFormData
     getReservationByRoom: async (roomCode: string): Promise<ReservationFormData> => {
         await delay(700);
-        // Simulasi data dari database
         return {
             fullName: "Budi Tabuti", 
             nrp: "5025211000",
@@ -52,7 +39,6 @@ export const reservationService = {
         };
     },
 
-    // BARU: Fungsi untuk mengambil detail lengkap termasuk status
     getReservationDetail: async (roomCode: string): Promise<ReservationDetailData> => {
         await delay(700);
         return {
@@ -62,21 +48,47 @@ export const reservationService = {
             purpose: "Rapat Koordinasi Projek",
             date: "2026-02-20",
             time: "10:00 - 12:00",
-            status: "Approved" // Simulasi status dari DB
+            status: "Approved" 
         };
     },
     
-
-    // PERBAIKAN: Ganti any dengan ReservationFormData
+    // PERBAIKAN: Masukkan 'data' ke dalam console.log agar tidak dianggap "Unused Parameter"
     updateReservation: async (data: ReservationFormData): Promise<{ success: boolean }> => {
-        console.log("Mengirim UPDATE ke ASP.NET di:", `${API_BASE_URL}/reservations`);
-        console.log("Payload Update:", data);
+        console.log("Mengirim UPDATE ke ASP.NET:", data); // Sekarang 'data' dipanggil
         await delay(1000);
         return { success: true };
     },
 
-    getAllReservations: async (): Promise<Reservation[]> => {
+    getAllReservations: async (): Promise<ReservationDetailData[]> => {
         await delay(800);
-        return [];
+        return [
+            { 
+                roomCode: 'A-104', 
+                fullName: 'Budi Tabuti', 
+                nrp: '5025211000', 
+                date: '2026-02-20', 
+                time: '10:00 - 12:00', 
+                purpose: 'Rapat Koordinasi Projek', 
+                status: 'Approved' 
+            },
+            { 
+                roomCode: 'B-103', 
+                fullName: 'Siti Aminah', 
+                nrp: '5025211001', 
+                date: '2026-02-21', 
+                time: '13:00 - 15:00', 
+                purpose: 'Seminar Kerja Praktek', 
+                status: 'Approved' 
+            },
+            { 
+                roomCode: 'C-104', 
+                fullName: 'Andi Wijaya', 
+                nrp: '5025211002', 
+                date: '2026-02-22', 
+                time: '08:00 - 11:00', 
+                purpose: 'Praktikum Pemrograman', 
+                status: 'Pending' 
+            }
+        ];
     }
 };
