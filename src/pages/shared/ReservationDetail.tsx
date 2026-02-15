@@ -1,7 +1,9 @@
 // src/pages/shared/ReservationDetail.tsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { reservationService, type ReservationDetailData } from '../../services/reservationService';
+import { reservationService } from '../../services/reservationService';
+// REVISI: Ambil tipe data dari folder types
+import type { ReservationDetailData } from '../../types/reservation';
 import './ReservationDetail.css';
 
 const ReservationDetail: React.FC = () => {
