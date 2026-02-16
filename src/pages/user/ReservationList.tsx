@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { reservationService } from '../../services/reservationService';
-// Mengambil kontrak data dari folder types
 import type { ReservationDetailData } from '../../types/reservation'; 
 import './ReservationList.css';
 
@@ -13,9 +12,14 @@ const ReservationList: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await reservationService.getAllReservations();
-            setReservations(data);
-            setLoading(false);
+            try {
+                const data = await reservationService.getAllReservations();
+                setReservations(data);
+            } catch (error) {
+                console.error("Gagal mengambil data list:", error);
+            } finally {
+                setLoading(false);
+            }
         };
         fetchData();
     }, []);
@@ -34,29 +38,33 @@ const ReservationList: React.FC = () => {
                             <th>Date</th>
                             <th>Time</th>
                             <th>Purpose Of Use</th>
-                            {/* BARU: Kolom Status */}
                             <th>Status</th> 
                         </tr>
                     </thead>
                     <tbody>
-                        {reservations.map((res, index) => (
-                            <tr 
-                                key={index} 
-                                onClick={() => navigate(`/reservation/detail/${res.roomCode}`)} 
-                                className="clickable-row"
-                            >
-                                <td>{res.roomCode}</td>
-                                <td>{res.date}</td>
-                                <td>{res.time}</td>
-                                <td>{res.purpose}</td>
-                                {/* BARU: Menampilkan Status dengan warna dinamis */}
-                                <td className={`status-cell ${res.status.toLowerCase()}`}>
-                                    {res.status}
+                        {reservations.length > 0 ? (
+                            reservations.map((res, index) => (
+                                // PERBAIKAN: Menghapus onClick dan class 'clickable-row'
+                                <tr key={index}>
+                                    <td>{res.roomCode}</td>
+                                    <td>{res.date}</td>
+                                    <td>{res.time}</td>
+                                    <td>{res.purpose}</td>
+                                    {/* Status dengan class dinamis (lower case) */}
+                                    <td className={`status-cell ${res.status.toLowerCase()}`}>
+                                        {res.status}
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={5} style={{ textAlign: 'center', padding: '20px' }}>
+                                    No reservations found.
                                 </td>
                             </tr>
-                        ))}
+                        )}
                         
-                        {/* Baris Kosong agar tabel tetap proporsional jika data sedikit */}
+                        {/* Baris Kosong agar tabel tetap proporsional */}
                         {[...Array(Math.max(0, 5 - reservations.length))].map((_, i) => (
                             <tr key={`empty-${i}`}>
                                 <td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>

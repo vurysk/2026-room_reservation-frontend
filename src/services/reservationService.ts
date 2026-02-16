@@ -6,136 +6,112 @@ import type {
     ReservationHistoryData
 } from '../types/reservation';
 
-const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
-//const API_BASE_URL = 'https://localhost:7000/api'; 
+const API_BASE_URL = 'http://localhost:5084/api'; 
+
+// Helper untuk mengekstrak pesan error dari Backend ASP.NET
+const extractErrorMessage = async (response: Response): Promise<string> => {
+    try {
+        const result = await response.json();
+        
+        // 1. Cek jika ada error dari Data Annotations (ValidationProblemDetails)
+        if (result.errors) {
+            // Mengambil pesan pertama dari list error yang ada
+            const firstErrorField = Object.keys(result.errors)[0];
+            return result.errors[firstErrorField][0];
+        }
+        
+        // 2. Cek jika ada error manual (BadRequest({ message: "..." }))
+        if (result.message) return result.message;
+
+        return "Terjadi kesalahan pada server.";
+    } catch {
+        return "Gagal menghubungi server.";
+    }
+};
 
 export const reservationService = {
     getRoomSummaries: async (): Promise<RoomSummary[]> => {
-        await delay(800); 
-        return [
-            { id: '1', code: 'A-101', status: 'available' },
-            { id: '2', code: 'A-102', status: 'available' },
-            { id: '3', code: 'A-103', status: 'available' },
-            { id: '4', code: 'A-104', status: 'approved', applicantId: 'user123' },
-            { id: '5', code: 'B-103', status: 'approved', applicantId: 'other' },
-            { id: '6', code: 'C-104', status: 'pending', applicantId: 'user123' },
-        ];
+        const response = await fetch(`${API_BASE_URL}/rooms`);
+        if (!response.ok) throw new Error('Gagal mengambil data ruangan');
+        return await response.json();
     },
 
     createReservation: async (data: ReservationFormData): Promise<{ success: boolean; message?: string }> => {
-        console.log("Payload Data Baru ke ASP.NET:", data); // 'data' digunakan di sini
-        await delay(1000);
+        const response = await fetch(`${API_BASE_URL}/reservations`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const errorMsg = await extractErrorMessage(response);
+            return { success: false, message: errorMsg };
+        }
         return { success: true };
     },
 
     getReservationByRoom: async (roomCode: string): Promise<ReservationFormData> => {
-        await delay(700);
-        return {
-            fullName: "Budi Tabuti", 
-            nrp: "5025211000",
-            purpose: "Rapat Koordinasi Projek",
-            date: "2026-02-20",
-            time: "10:00 - 12:00",
-            roomCode: roomCode
-        };
+        const response = await fetch(`${API_BASE_URL}/reservations/room/${roomCode}`);
+        if (!response.ok) throw new Error('Ruangan kosong atau tidak ditemukan');
+        return await response.json();
     },
 
     getReservationDetail: async (roomCode: string): Promise<ReservationDetailData> => {
-        await delay(700);
-        return {
-            roomCode: roomCode,
-            fullName: "Budi Tabuti", 
-            nrp: "5025211000",
-            purpose: "Rapat Koordinasi Projek",
-            date: "2026-02-20",
-            time: "10:00 - 12:00",
-            status: "Approved" 
-        };
+        const response = await fetch(`${API_BASE_URL}/reservations/room/${roomCode}`);
+        if (!response.ok) throw new Error('Gagal mengambil detail reservasi');
+        return await response.json();
     },
     
-    // PERBAIKAN: Masukkan 'data' ke dalam console.log agar tidak dianggap "Unused Parameter"
-    updateReservation: async (data: ReservationFormData): Promise<{ success: boolean }> => {
-        console.log("Mengirim UPDATE ke ASP.NET:", data); // Sekarang 'data' dipanggil
-        await delay(1000);
+    updateReservation: async (id: string, data: ReservationFormData): Promise<{ success: boolean; message?: string }> => {
+        const response = await fetch(`${API_BASE_URL}/reservations/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            const errorMsg = await extractErrorMessage(response);
+            return { success: false, message: errorMsg };
+        }
+        return { success: true };
+    },
+
+    deleteReservation: async (id: string): Promise<{ success: boolean; message?: string }> => {
+        const response = await fetch(`${API_BASE_URL}/reservations/${id}`, {
+            method: 'DELETE'
+        });
+
+        if (!response.ok) {
+            const errorMsg = await extractErrorMessage(response);
+            return { success: false, message: errorMsg };
+        }
         return { success: true };
     },
 
     getAllReservations: async (): Promise<ReservationDetailData[]> => {
-        await delay(800);
-        return [
-            { 
-                roomCode: 'A-104', 
-                fullName: 'Budi Tabuti', 
-                nrp: '5025211000', 
-                date: '2026-02-20', 
-                time: '10:00 - 12:00', 
-                purpose: 'Rapat Koordinasi Projek', 
-                status: 'Approved' 
-            },
-            { 
-                roomCode: 'B-103', 
-                fullName: 'Siti Aminah', 
-                nrp: '5025211001', 
-                date: '2026-02-21', 
-                time: '13:00 - 15:00', 
-                purpose: 'Seminar Kerja Praktek', 
-                status: 'Approved' 
-            },
-            { 
-                roomCode: 'C-104', 
-                fullName: 'Andi Wijaya', 
-                nrp: '5025211002', 
-                date: '2026-02-22', 
-                time: '08:00 - 11:00', 
-                purpose: 'Praktikum Pemrograman', 
-                status: 'Pending' 
-            }
-        ];
+        const response = await fetch(`${API_BASE_URL}/reservations`);
+        if (!response.ok) throw new Error('Gagal mengambil daftar reservasi');
+        return await response.json();
     },
 
     getPendingReservations: async (): Promise<ReservationDetailData[]> => {
-        await delay(800);
-        return [
-            { 
-                roomCode: 'C-104', 
-                fullName: 'Andi Wijaya', 
-                nrp: '5025211002', 
-                date: '2026-02-22', 
-                time: '08:00 - 11:00', 
-                purpose: 'Praktikum Pemrograman', 
-                status: 'Pending' 
-            },
-            { 
-                roomCode: 'D-101', 
-                fullName: 'Rina Rose', 
-                nrp: '5025211005', 
-                date: '2026-02-23', 
-                time: '10:00 - 12:00', 
-                purpose: 'Rapat Internal', 
-                status: 'Pending' 
-            },
-        ];
+        const response = await fetch(`${API_BASE_URL}/admin/pending`);
+        if (!response.ok) throw new Error('Gagal mengambil data pending');
+        return await response.json();
     },
 
-    /**
-     * Memperbarui status reservasi (Accept/Decline).
-     * @param roomCode Kode ruangan yang statusnya akan diubah.
-     * @param newStatus Status baru ('Approved' atau 'Rejected').
-     */
-    updateReservationStatus: async (roomCode: string, newStatus: 'Approved' | 'Rejected'): Promise<{ success: boolean }> => {
-        console.log(`API Call (Admin): Merubah status ${roomCode} menjadi ${newStatus}`);
-        await delay(1000); // Simulasi koneksi ke database ASP.NET
-        return { success: true };
+    updateReservationStatus: async (roomCode: string, newStatus: string): Promise<{ success: boolean }> => {
+        const response = await fetch(`${API_BASE_URL}/admin/status/${roomCode}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ newStatus: newStatus })
+        });
+        return { success: response.ok };
     }, 
 
     getReservationHistory: async (): Promise<ReservationHistoryData[]> => {
-        await delay(800); // Simulasi loading data
-        return [
-            { fullName: 'Budi Tabuti', roomCode: 'A-104', date: '2026-02-14', time: '10:00 - 12:00', status: 'Approved', sessionStatus: 'Upcoming' },
-            { fullName: 'Siti Aminah', roomCode: 'B-103', date: '2026-02-13', time: '13:00 - 15:00', status: 'Rejected', sessionStatus: '-' },
-            { fullName: 'Andi Wijaya', roomCode: 'C-104', date: '2026-02-14', time: '08:00 - 11:00', status: 'Approved', sessionStatus: 'On-Going' },
-            { fullName: 'Rina Rose', roomCode: 'D-101', date: '2026-02-10', time: '09:00 - 11:00', status: 'Approved', sessionStatus: 'Completed' },
-        ]; // Mengembalikan data simulasi sesuai dengan kolom di gambar
+        const response = await fetch(`${API_BASE_URL}/admin/history`);
+        if (!response.ok) throw new Error('Gagal mengambil riwayat');
+        return await response.json();
     }
-    
 };
