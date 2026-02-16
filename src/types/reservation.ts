@@ -1,6 +1,6 @@
 // src/types/reservation.ts
 
-export type ReservationStatus = 'Pending' | 'Approved' | 'Rejected';
+export type ReservationStatus = 'Pending' | 'Approved' | 'Rejected' | 'Cancelled';
 export type SessionStatus = 'Upcoming' | 'On-Going' | 'Completed' | '-';
 export type RoomGridStatus = 'available' | 'pending' | 'approved';
 

@@ -109,7 +109,7 @@
 }
 
 /* Tombol Aksi sesuai warna di image_2e030b.png */
-.btn-decline { 
+.btn-reject { 
     background-color: #835353; 
     color: white; 
     border: none; 
@@ -129,7 +129,7 @@
     font-weight: bold; 
 }
 
-.btn-decline:hover, .btn-accept:hover { filter: brightness(1.2); }
+.btn-reject:hover, .btn-accept:hover { filter: brightness(1.2); }
 
 .back-btn { 
     color: white; 
